@@ -179,12 +179,6 @@ public class GetOutputFormat extends valuesBean
 				TableCell tc = control.getTableCell(i, j);
 				TableCellNormal tcm = (TableCellNormal)tc;
 				if(tcm.getOutputFormat() != null && tcm.getOutputFormat() != "") {
-					/*
-					System.out.println("========================================");
-					System.out.println(sControlPath + " > " + control.getName() + " > " + (i+1) +"번째 행 / "+ (j+1) +"번째 열 (셀)");
-					System.out.println("========================================");
-					System.out.println("-> "+tcm.getOutputFormat());
-					*/
 					map = new HashMap();
 					map.put("path", sControlPath + " > " + control.getName() + " > " + (i+1) +"번째 행 / "+ (j+1) +"번째 열 (셀)");
 					map.put("detailValue", tcm.getOutputFormat());
@@ -203,24 +197,23 @@ public class GetOutputFormat extends valuesBean
 		}		
 	}
 	public void setWritelog(String logFilePath) throws Exception {
-		/*
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		System.out.println("파일명 : "+rptName);
-		System.out.println("============================================");
-		*/
 		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(logFilePath));
-			out.write("파일명 : "+getRptName()); out.newLine();
-			out.newLine(); 
-			for(int i=0; i<list.size(); i++){
-				HashMap getMap = new HashMap();
-				getMap = (HashMap)list.get(i);
-				
-				out.newLine();
-				out.write("컨트롤 위치 : "+getMap.get("path").toString()); out.newLine();
-				out.write("-> "+getMap.get("detailValue").toString()); out.newLine();
+			if(list.isEmpty()) {
+				return;
+			} else {
+				BufferedWriter out = new BufferedWriter(new FileWriter(logFilePath));
+				out.write("파일명 : "+getRptName()); out.newLine();
+				out.newLine(); 
+				for(int i=0; i<list.size(); i++){
+					HashMap getMap = new HashMap();
+					getMap = (HashMap)list.get(i);
+					
+					out.newLine();
+					out.write("컨트롤 위치 : "+getMap.get("path").toString()); out.newLine();
+					out.write("-> "+getMap.get("detailValue").toString()); out.newLine();
+				}
+				out.close();
 			}
-			out.close();
 		} catch (Exception e) {
 			throw new Exception("???");
 		}
